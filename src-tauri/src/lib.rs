@@ -5,6 +5,11 @@ use gtk::{
     traits::{ContainerExt, CssProviderExt, GtkWindowExt, WidgetExt},
 };
 use gtk_layer_shell::LayerShell;
+use hyprland::{
+    data::{Workspace, Workspaces},
+    event_listener::EventListener,
+    shared::HyprData,
+};
 use sysinfo::{Components, System};
 use tauri::{Emitter, Manager};
 
@@ -17,11 +22,20 @@ fn exec(script: String) {
         .expect("Failed to execute command");
 }
 
+#[tauri::command]
+fn fetch_workspaces() -> Vec<i32> {
+    Workspaces::get()
+        .expect("Failed to get workspaces")
+        .iter()
+        .map(|w| w.id)
+        .collect::<Vec<i32>>()
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
-        .invoke_handler(tauri::generate_handler![exec])
+        .invoke_handler(tauri::generate_handler![exec, fetch_workspaces])
         .setup(|app| {
             let main_window = app.get_webview_window("main").unwrap();
             main_window.hide().unwrap();
@@ -31,6 +45,7 @@ pub fn run() {
             );
 
             let win_clone = main_window.clone();
+            let win_clone_wm = main_window.clone();
 
             std::thread::spawn(move || {
                 let mut system = System::new_all();
@@ -53,10 +68,34 @@ pub fn run() {
 
                     let avg = temps.iter().sum::<f32>() / temps.len() as f32;
 
-                    println!("{avg} C");
                     _ = win_clone.emit("cpu-usage", cpu_usage);
                     std::thread::sleep(Duration::from_secs(1))
                 }
+            });
+
+            std::thread::spawn(move || {
+                let mut event_listener = EventListener::new();
+
+                event_listener.add_active_window_changed_handler({
+                    let win_clone_wm = win_clone_wm.clone();
+                    move |data| {
+                        if let Some(data) = data {
+                            let _ = win_clone_wm.emit("window-changed", data.title);
+                        }
+                    }
+                });
+
+                event_listener.add_workspace_changed_handler({
+                    let win_clone_wm = win_clone_wm.clone();
+                    move |data| {
+                        let w = fetch_workspaces();
+                        let _ = win_clone_wm.emit("workspace-changed", (data.id, w));
+                    }
+                });
+
+                event_listener
+                    .start_listener()
+                    .expect("Failed to start hyprland listener");
             });
 
             // To prevent the window from being black initially.
