@@ -26,4 +26,7 @@ gtk-layer-shell = "0.8.2"
 sysinfo = "0.33.1"
 gtk = "0.18.2"
 hyprland = "0.4.0-alpha.0"
+traccia = "1.4.2"
+tokio = { version = "1.44.1", features = ["time"] }
+chrono = "0.4.40"
 

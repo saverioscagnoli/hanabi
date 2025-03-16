@@ -538,8 +538,10 @@ checksum = "1a7964611d71df112cb1730f2ee67324fcf4d0fc6606acbbe9bfe06df124637c"
 dependencies = [
  "android-tzdata",
  "iana-time-zone",
+ "js-sys",
  "num-traits",
  "serde",
+ "wasm-bindgen",
  "windows-link",
 ]
 
@@ -1515,6 +1517,7 @@ dependencies = [
 name = "hanabi"
 version = "0.1.0"
 dependencies = [
+ "chrono",
  "gtk",
  "gtk-layer-shell",
  "hyprland",
@@ -1524,6 +1527,8 @@ dependencies = [
  "tauri",
  "tauri-build",
  "tauri-plugin-opener",
+ "tokio",
+ "traccia",
 ]
 
 [[package]]
@@ -4374,6 +4379,12 @@ name = "tower-service"
 version = "0.3.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8df9b6e13f2d32c91b9bd719c00d1958837bc7dec474d94952798cc8e69eeec3"
+
+[[package]]
+name = "traccia"
+version = "1.4.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b9ca49b27e9f8d8c4162355609d04a27d460c57642dc1f2828d357e58c246ef7"
 
 [[package]]
 name = "tracing"

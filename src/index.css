@@ -3,8 +3,3 @@
 body {
   background-color: rgb(0, 0, 0, 0.5);
 }
-
-.workspace-change {
-  transition: transform 0.5s ease-in-out;
-  transform: scale(3);
-}
