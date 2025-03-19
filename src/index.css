@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
 body {
+  font-family: Helvetica Neue;
+  font-size: 15px;
   background-color: rgb(0, 0, 0, 0.75);
 }

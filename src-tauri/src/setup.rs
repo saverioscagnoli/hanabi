@@ -4,6 +4,7 @@ use gtk::{
     ApplicationWindow,
 };
 use gtk_layer_shell::{Edge, Layer, LayerShell};
+use traccia::fatal;
 
 pub trait InitDock {
     fn init_dock(&self);
@@ -45,6 +46,9 @@ impl InitDock for ApplicationWindow {
 
             // Show the gtk window
             self.show_all();
+        } else {
+            fatal!("No displays were found. Aborting.");
+            std::process::exit(1);
         }
     }
 }

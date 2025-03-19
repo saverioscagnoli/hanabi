@@ -4,6 +4,7 @@ use tauri::WebviewWindow;
 use tokio::sync::Mutex;
 
 mod cpu;
+mod mem;
 
 #[tauri::command]
 pub fn spawn_metrics_threads(window: WebviewWindow) {
@@ -12,4 +13,6 @@ pub fn spawn_metrics_threads(window: WebviewWindow) {
 
     cpu::spawn_usage_meter(&window, &system);
     cpu::spawn_temp_meter(&window);
+
+    mem::spawn_usage_meter(&window, &system);
 }

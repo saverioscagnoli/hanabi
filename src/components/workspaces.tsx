@@ -20,7 +20,7 @@ const Workspaces = () => {
   });
 
   return (
-    <div className={cn("flex items-center gap-4")}>
+    <div className={cn("min-w-1/3 flex items-center gap-4 px-4")}>
       {workspaces.sort().map(id => (
         <p
           key={id}
