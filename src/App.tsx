@@ -1,6 +1,6 @@
 import { invoke } from "@tauri-apps/api/core";
 import { useTauriEvent } from "@util-hooks/use-tauri-event";
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect } from "react";
 import { cn } from "~/lib/utils";
 import { Workspaces } from "~/components/workspaces";
 
@@ -15,6 +15,7 @@ function App() {
     }, 1000);
 
     invoke("spawn_metrics_threads");
+    invoke("init_compositor_events");
 
     invoke<string | null>("fetch_active_window_title").then(
       title => title && setActiveWindowTitle(title)

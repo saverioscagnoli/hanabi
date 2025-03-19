@@ -43,7 +43,7 @@ async fn main() {
     if let Ok(log_dir) = get_log_dir().await {
         let name = format!(
             "{}.log",
-            chrono::Local::now().format("%Y-%m-%d_%H-%M-%S").to_string()
+            chrono::Local::now().format("%Y-%m-%d").to_string()
         );
 
         let log_file = log_dir.join(name);

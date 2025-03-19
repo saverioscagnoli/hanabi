@@ -29,4 +29,5 @@ hyprland = "0.4.0-alpha.0"
 traccia = "1.4.2"
 tokio = { version = "1.44.1", features = ["time"] }
 chrono = "0.4.40"
+wayland-client = "0.31.8"
 
